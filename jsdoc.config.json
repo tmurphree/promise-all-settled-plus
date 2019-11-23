@@ -1,0 +1,14 @@
+{
+  "opts": {
+    "destination": "./docs",
+    "recurse": true
+  },
+  "recurseDepth": 999,
+  "source": {
+    "exclude": [
+      "docs",
+      "node_modules",
+      "tmp"
+    ]
+  }
+}
