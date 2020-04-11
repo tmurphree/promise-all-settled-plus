@@ -1,6 +1,6 @@
 /* eslint no-undef:"off" */
 
-const { myFn } = require('../index.js');
+const promiseAllSettledPlus = require('../index.js');
 
 // #region jasmine setup
 const origTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
@@ -31,12 +31,65 @@ const myReporter = {
 jasmine.getEnv().addReporter(myReporter);
 // #endregion jasmine setup
 
-describe('myFn', () => {
-  it('throws on bad input', () => {
-    expect(() => { myFn(); }).toThrow();
-  });
+const promiseFactory = function promiseFactory(input) {
+  if (input) {
+    return Promise.resolve(Math.random());
+  }
 
-  it('does something cool', () => {
-    expect(myFn('asdf')).toBe(true);
+  return Promise.reject(new Error('Some fake error'));
+};
+
+describe('promiseAllSettledPlus throws on bad input', () => {
+  it('expects an iterable', () => {
+    // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
+    // numbers are not iterables
+    expect(() => { promiseAllSettledPlus(12); }).toThrow();
+  });
+});
+
+describe('promiseAllSettledPlus returns an object with useful helper properties', () => {
+  xit('returns a rational result for populated iterables (all resolved)', () => (
+    promiseAllSettledPlus([true, true, true, true].map(promiseFactory))
+      .then(() => 'do something useful')
+      .catch((err) => {
+        fail(err.stack)
+      })
+  ));
+
+  xit('returns a rational result for populated iterables (mixed results)', () => (
+    promiseAllSettledPlus([true, true, false, false, false].map(promiseFactory))
+      .then(() => 'do something useful')
+      .catch((err) => {
+        fail(err.stack)
+      })
+  ));
+
+  xit('returns a rational result for populated iterables (all rejected)', () => (
+    promiseAllSettledPlus([false, false, false, false, false].map(promiseFactory))
+      .then(() => 'do something useful')
+      .catch((err) => {
+        fail(err.stack)
+      })
+  ));
+
+  xit('returns a rational result for empty iterables', () => promiseAllSettledPlus([])
+    .then(() => 'do something useful')
+    .catch((err) => {
+      fail(err.stack)
+    })
+  );
+
+  it('takes iterables other than arrays', () => {
+    pending('successful completion of previous specs');
+    const myMap = new Map([
+      [1, Promise.resolve(2)],
+      [2, Promise.reject(4)]
+    ]);
+
+    return promiseAllSettledPlus(myMap)
+      .then(() => 'do something useful')
+      .catch((err) => {
+        fail(err.stack)
+      })
   });
 });
