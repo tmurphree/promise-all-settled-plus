@@ -1,28 +1,36 @@
 {
-  "name": "promise-all-settled-plus",
+  "name": "@tmurphree/promise-all-settled-plus",
   "version": "0.0.0",
-  "description": "",
-  "keywords": [],
+  "description": "Add helper functionality to Promise.allSettled",
+  "keywords": [
+    "Promise.allSettled"
+  ],
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "docs": "jsdoc -c jsdoc.config.json --readme README.md .",
-    "lint": "eslint --ignore-path .eslintignore .",
+    "lint": "eslint --ignore-path .eslintignore --fix --fix-type layout .",
     "lint:fix": "eslint --ignore-path .eslintignore --fix .",
-    "pretest": "eslint --ignore-path .eslintignore .",
+    "pretest": "npm run lint",
     "test": "jasmine",
     "preversion": "npm run test"
   },
-  "dependencies": {
-    "dotenv": "8.2.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "eslint": "6.1.0",
-    "eslint-config-airbnb-base": "14.0.0",
-    "eslint-plugin-import": "2.18.2",
+    "eslint": "6.8.0",
+    "eslint-config-airbnb-base": "14.1.0",
+    "eslint-plugin-import": "2.20.2",
     "jasmine": "3.5.0",
     "jsdoc": "3.6.3"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tmurphree/promise-all-settled-plus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tmurphree/promise-all-settled-plus/issues"
+  },
+  "homepage": "https://github.com/tmurphree/promise-all-settled-plus",
   "engines": {
     "node": ">=12.0.0"
   }

@@ -1,7 +1,5 @@
 /* eslint no-undef:"off" */
 
-require('dotenv').config();
-
 const { myFn } = require('../index.js');
 
 // #region jasmine setup
