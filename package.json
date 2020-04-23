@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Add helper functionality to Promise.allSettled",
   "keywords": [
-    "Promise.allSettled"
+    "Promise.allSettled", "easy"
   ],
   "main": "index.js",
   "license": "MIT",
@@ -34,5 +34,5 @@
   "engines": {
     "node": ">=12.13.0"
   },
-  "files": ["index.js"]
+  "files": ["src/"]
 }

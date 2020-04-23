@@ -1,6 +1,6 @@
 /* eslint no-undef:"off" */
 
-const promiseAllSettledPlus = require('../index.js');
+const promiseAllSettledPlus = require('../src/index.js');
 
 // #region jasmine setup
 const origTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
@@ -31,65 +31,159 @@ const myReporter = {
 jasmine.getEnv().addReporter(myReporter);
 // #endregion jasmine setup
 
+const isPasResult = function isValidPromiseAllSettledResult(rawResult) {
+  return Array.isArray(rawResult) &&
+    rawResult.length > 0 &&
+    rawResult.every((el) => ['fulfilled', 'rejected'].includes(el.status)) &&
+    rawResult.every((el) => (el.value || el.reason));
+};
+
 const promiseFactory = function promiseFactory(input) {
   if (input) {
     return Promise.resolve(Math.random());
   }
 
-  return Promise.reject(new Error('Some fake error'));
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error('Some fake error'));
+    }, 1000);
+  });
 };
 
-describe('promiseAllSettledPlus throws on bad input', () => {
-  it('expects an iterable', () => {
+
+describe('promiseAllSettledPlus', () => {
+  it('validates input', () => {
     // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
-    // numbers are not iterables
-    expect(() => { promiseAllSettledPlus(12); }).toThrow();
-  });
-});
+    // numbers are not arrays
+    expect(() => { promiseAllSettledPlus(12); }).toThrowError('input must be an array');
 
-describe('promiseAllSettledPlus returns an object with useful helper properties', () => {
-  xit('returns a rational result for populated iterables (all resolved)', () => (
+    expect(() => {
+      promiseAllSettledPlus([Promise.resolve(12)]);
+    }).not.toThrow();
+
+    // expe
+  });
+
+  it('returns a rational result for populated arrays (all resolved)', () => (
     promiseAllSettledPlus([true, true, true, true].map(promiseFactory))
-      .then(() => 'do something useful')
+      .then((result) => {
+        // all
+        expect(result.allFulfilled).toBeTrue();
+        expect(result.allRejected).toBeFalse();
+
+        // some
+        expect(result.hasFulfilled).toBeTrue();
+        expect(result.hasRejected).toBeFalse();
+
+        // rawResult
+        expect(isPasResult(result.rawResult)).toBeTrue();
+
+        // counts
+        expect(result.fulfilledCount).toBe(4);
+        expect(result.rejectedCount).toBe(0);
+      })
       .catch((err) => {
-        fail(err.stack)
+        fail(err.stack);
       })
   ));
 
-  xit('returns a rational result for populated iterables (mixed results)', () => (
+  it('returns a rational result for populated arrays (mixed results)', (done) => {
     promiseAllSettledPlus([true, true, false, false, false].map(promiseFactory))
-      .then(() => 'do something useful')
-      .catch((err) => {
-        fail(err.stack)
+      .then((result) => {
+        // all
+        expect(result.allFulfilled).toBeFalse();
+        expect(result.allRejected).toBeFalse();
+
+        // some
+        expect(result.hasFulfilled).toBeTrue();
+        expect(result.hasRejected).toBeTrue();
+
+        // rawResult
+        expect(isPasResult(result.rawResult)).toBeTrue();
+
+        // counts
+        expect(result.fulfilledCount).toBe(2);
+        expect(result.rejectedCount).toBe(3);
+
+        done();
       })
-  ));
-
-  xit('returns a rational result for populated iterables (all rejected)', () => (
-    promiseAllSettledPlus([false, false, false, false, false].map(promiseFactory))
-      .then(() => 'do something useful')
       .catch((err) => {
-        fail(err.stack)
-      })
-  ));
-
-  xit('returns a rational result for empty iterables', () => promiseAllSettledPlus([])
-    .then(() => 'do something useful')
-    .catch((err) => {
-      fail(err.stack)
-    })
-  );
-
-  it('takes iterables other than arrays', () => {
-    pending('successful completion of previous specs');
-    const myMap = new Map([
-      [1, Promise.resolve(2)],
-      [2, Promise.reject(4)]
-    ]);
-
-    return promiseAllSettledPlus(myMap)
-      .then(() => 'do something useful')
-      .catch((err) => {
-        fail(err.stack)
-      })
+        fail(err.stack);
+      });
   });
+
+  it('returns a rational result for populated arrays (all rejected)', () => (
+    promiseAllSettledPlus([false, false, false, false, false].map(promiseFactory))
+      .then((result) => {
+        // all
+        expect(result.allFulfilled).toBeFalse();
+        expect(result.allRejected).toBeTrue();
+
+        // some
+        expect(result.hasFulfilled).toBeFalse();
+        expect(result.hasRejected).toBeTrue();
+
+        // rawResult
+        expect(isPasResult(result.rawResult)).toBeTrue();
+
+        // counts
+        expect(result.fulfilledCount).toBe(0);
+        expect(result.rejectedCount).toBe(5);
+      })
+      .catch((err) => {
+        fail(err.stack);
+      })
+  ));
+
+  it('returns a rational result for empty arrays', () => promiseAllSettledPlus([])
+    .then((result) => {
+      console.log(result);
+      // all
+      expect(result.allFulfilled).toBeFalse();
+      expect(result.allRejected).toBeFalse();
+
+      // some
+      expect(result.hasFulfilled).toBeFalse();
+      expect(result.hasRejected).toBeFalse();
+
+      // rawResult
+      expect(result.rawResult).toEqual([]);
+
+      // counts
+      expect(result.fulfilledCount).toBe(0);
+      expect(result.rejectedCount).toBe(0);
+    })
+    .catch((err) => {
+      fail(err.stack);
+    }));
+
+  // it('takes arrays other than arrays', () => {
+  //   const myMap = new Map([
+  //     [1, Promise.resolve(2)],
+  //     [2, Promise.reject(new Error('some error'))],
+  //   ]);
+
+  //   return promiseAllSettledPlus(myMap)
+  //     .then((result) => {
+  //       console.log(result);
+  //       console.log(result.rawResult);
+  //       // all
+  //       expect(result.allFulfilled).toBeFalse();
+  //       expect(result.allRejected).toBeFalse();
+
+  //       // some
+  //       expect(result.hasFulfilled).toBeTrue();
+  //       expect(result.hasRejected).toBeTrue();
+
+  //       // rawResult
+  //       expect(isPasResult(result.rawResult)).toBeTrue();
+
+  //       // counts
+  //       expect(result.fulfilledCount).toBe(1);
+  //       expect(result.rejectedCount).toBe(1);
+  //     })
+  //     .catch((err) => {
+  //       fail(err.stack);
+  //     });
+  // });
 });
