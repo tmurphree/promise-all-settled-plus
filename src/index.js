@@ -2,16 +2,27 @@
  * @description Add useful getters to the result of a call to Promise.allSettled.
  * @param {Promise[]} vows An array of the Promises you want to call.
  * @param {object} promises
+ * @param {object} options
  * @param {boolean} [options.checkInputForPromises=true] If true, checks that all items in the
  *   input array are native Promises.
  * @returns {object} object
 */
 const promiseAllSettledPlus = function promiseAllSettledPlus(
   promises,
-  { checkInputForPromises = true } = {}
+  options = { checkInputForPromises: true }
 ) {
+  if (typeof options !== 'object') {
+    throw new Error('options must be an object if you supply a value for it.');
+  }
+
+  const { checkInputForPromises } = options;
+
   if (!(Array.isArray(promises))) {
     throw new TypeError('input must be an array');
+  }
+
+  if (typeof checkInputForPromises !== 'boolean') {
+    throw new Error('checkInputForPromises must be boolean');
   }
 
   if (checkInputForPromises && !(promises.every((el) => el instanceof Promise))) {

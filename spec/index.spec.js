@@ -43,13 +43,7 @@ const promiseFactory = function promiseFactory(input) {
     return Promise.resolve(Math.random());
   }
 
-
   return Promise.reject(new Error('Some fake error'));
-  // return new Promise((resolve, reject) => {
-  //   setTimeout(() => {
-  //     reject(new Error('Some fake error'));
-  //   }, 1000);
-  // });
 };
 
 

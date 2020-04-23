@@ -7,13 +7,13 @@ Adds useful getters to the result of a call to Promise.allSettled.
 |Requires Promise.allSettled to exist.|This shouldn't be a problem for most users.  It's in Node.js 12.13.0  and most major browsers [(see caniuse.com, April 22, 2020)](https://caniuse.com/#feat=mdn-javascript_builtins_promise_allsettled), so most people won't have a problem.  Please [create an issue](https://github.com/tmurphree/promise-all-settled-plus/issues) and I'm open to working on this with you if you need it to work with a custom Promise library.  
 
 # Accepts  
-An array.  
+An array of Promises.
 
-## Note  
-Input validation checks for an array, but it does NOT check that the array is all Promises.  
-So you *can* call `promiseAllSettledPlus([1, 2, 3])` and it won't throw, but it won't give you the answer you probably expect.  
-Why?  Because not everyone uses the built-in Promise library, and I want them to be able to use it, too.  
-
+Input is validated for an array of native Promises.  If you use a module that uses another Promise library, you may need to bypass this check with the `checkInputForPromises` option:
+``` js
+promiseAllSettledPlus([customPromise1, customPromise2], { checkInputForPromises: false })
+// etc
+```
 # Returns  
 ```js
 /**
