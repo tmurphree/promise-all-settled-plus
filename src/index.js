@@ -2,13 +2,20 @@
  * @description Add useful getters to the result of a call to Promise.allSettled.
  * @param {Promise[]} vows An array of the Promises you want to call.
  * @param {object} promises
- * @param {boolean} [options.checkInputForPromises=false] If true, checks that all items in the
+ * @param {boolean} [options.checkInputForPromises=true] If true, checks that all items in the
  *   input array are native Promises.
  * @returns {object} object
 */
-const promiseAllSettledPlus = function promiseAllSettledPlus(promises) {
+const promiseAllSettledPlus = function promiseAllSettledPlus(
+  promises,
+  { checkInputForPromises = true } = {}
+) {
   if (!(Array.isArray(promises))) {
     throw new TypeError('input must be an array');
+  }
+
+  if (checkInputForPromises && !(promises.every((el) => el instanceof Promise))) {
+    throw new Error('input must be an array of Promises');
   }
 
   if (typeof Promise.allSettled !== 'function') {

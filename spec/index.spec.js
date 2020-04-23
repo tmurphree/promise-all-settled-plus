@@ -43,11 +43,13 @@ const promiseFactory = function promiseFactory(input) {
     return Promise.resolve(Math.random());
   }
 
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      reject(new Error('Some fake error'));
-    }, 1000);
-  });
+
+  return Promise.reject(new Error('Some fake error'));
+  // return new Promise((resolve, reject) => {
+  //   setTimeout(() => {
+  //     reject(new Error('Some fake error'));
+  //   }, 1000);
+  // });
 };
 
 
@@ -57,8 +59,17 @@ describe('promiseAllSettledPlus', () => {
     // numbers are not arrays
     expect(() => { promiseAllSettledPlus(12); }).toThrowError('input must be an array');
 
+    expect(() => { promiseAllSettledPlus([1, 2, 3]); })
+      .toThrowError('input must be an array of Promises');
+
     expect(() => {
       promiseAllSettledPlus([Promise.resolve(12)]);
+    }).not.toThrow();
+  });
+
+  it('optionally lets you bypass checking for Promises', () => {
+    expect(() => {
+      promiseAllSettledPlus([1, 2, 3], { checkInputForPromises: false });
     }).not.toThrow();
   });
 
@@ -133,7 +144,6 @@ describe('promiseAllSettledPlus', () => {
 
   it('returns a rational result for empty arrays', () => promiseAllSettledPlus([])
     .then((result) => {
-      console.log(result);
       // all
       expect(result.allFulfilled).toBeFalse();
       expect(result.allRejected).toBeFalse();
