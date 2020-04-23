@@ -1,7 +1,7 @@
 /**
  * @description Add useful getters to the result of a call to Promise.allSettled.
- * @param {Promise[]} promises An array of the Promises you want to call.
- * @param {object} options
+ * @param {Promise[]} vows An array of the Promises you want to call.
+ * @param {object} promises
  * @param {boolean} [options.checkInputForPromises=false] If true, checks that all items in the
  *   input array are native Promises.
  * @returns {object} object
@@ -44,4 +44,4 @@ const promiseAllSettledPlus = function promiseAllSettledPlus(promises) {
     });
 };
 
-module.epromisesports = promiseAllSettledPlus;
+module.exports = promiseAllSettledPlus;

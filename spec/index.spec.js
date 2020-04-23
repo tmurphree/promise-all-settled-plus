@@ -1,6 +1,6 @@
 /* eslint no-undef:"off" */
 
-const promiseAllSettledPlus = require('../src/index.js');
+const promiseAllSettledPlus = require('../src/index');
 
 // #region jasmine setup
 const origTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
@@ -60,8 +60,6 @@ describe('promiseAllSettledPlus', () => {
     expect(() => {
       promiseAllSettledPlus([Promise.resolve(12)]);
     }).not.toThrow();
-
-    // expe
   });
 
   it('returns a rational result for populated arrays (all resolved)', () => (
@@ -87,7 +85,7 @@ describe('promiseAllSettledPlus', () => {
       })
   ));
 
-  it('returns a rational result for populated arrays (mixed results)', (done) => {
+  it('returns a rational result for populated arrays (mixed results)', () => (
     promiseAllSettledPlus([true, true, false, false, false].map(promiseFactory))
       .then((result) => {
         // all
@@ -104,13 +102,11 @@ describe('promiseAllSettledPlus', () => {
         // counts
         expect(result.fulfilledCount).toBe(2);
         expect(result.rejectedCount).toBe(3);
-
-        done();
       })
       .catch((err) => {
         fail(err.stack);
-      });
-  });
+      })
+  ));
 
   it('returns a rational result for populated arrays (all rejected)', () => (
     promiseAllSettledPlus([false, false, false, false, false].map(promiseFactory))
