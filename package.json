@@ -1,9 +1,10 @@
 {
   "name": "@tmurphree/promise-all-settled-plus",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Add helper functionality to Promise.allSettled",
   "keywords": [
-    "Promise.allSettled", "easy"
+    "Promise.allSettled",
+    "easy"
   ],
   "main": "index.js",
   "license": "MIT",
@@ -34,5 +35,7 @@
   "engines": {
     "node": ">=12.13.0"
   },
-  "files": ["src/"]
+  "files": [
+    "src/"
+  ]
 }
