@@ -156,34 +156,4 @@ describe('promiseAllSettledPlus', () => {
     .catch((err) => {
       fail(err.stack);
     }));
-
-  // it('takes arrays other than arrays', () => {
-  //   const myMap = new Map([
-  //     [1, Promise.resolve(2)],
-  //     [2, Promise.reject(new Error('some error'))],
-  //   ]);
-
-  //   return promiseAllSettledPlus(myMap)
-  //     .then((result) => {
-  //       console.log(result);
-  //       console.log(result.rawResult);
-  //       // all
-  //       expect(result.allFulfilled).toBeFalse();
-  //       expect(result.allRejected).toBeFalse();
-
-  //       // some
-  //       expect(result.hasFulfilled).toBeTrue();
-  //       expect(result.hasRejected).toBeTrue();
-
-  //       // rawResult
-  //       expect(isPasResult(result.rawResult)).toBeTrue();
-
-  //       // counts
-  //       expect(result.fulfilledCount).toBe(1);
-  //       expect(result.rejectedCount).toBe(1);
-  //     })
-  //     .catch((err) => {
-  //       fail(err.stack);
-  //     });
-  // });
 });
