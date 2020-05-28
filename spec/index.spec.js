@@ -71,8 +71,8 @@ describe('promiseAllSettledPlus', () => {
     promiseAllSettledPlus([true, true, true, true].map(promiseFactory))
       .then((result) => {
         // all
-        expect(result.allFulfilled).toBeTrue();
-        expect(result.allRejected).toBeFalse();
+        expect(result.areAllFulfilled).toBeTrue();
+        expect(result.areAllRejected).toBeFalse();
 
         // some
         expect(result.hasFulfilled).toBeTrue();
@@ -94,8 +94,8 @@ describe('promiseAllSettledPlus', () => {
     promiseAllSettledPlus([true, true, false, false, false].map(promiseFactory))
       .then((result) => {
         // all
-        expect(result.allFulfilled).toBeFalse();
-        expect(result.allRejected).toBeFalse();
+        expect(result.areAllFulfilled).toBeFalse();
+        expect(result.areAllRejected).toBeFalse();
 
         // some
         expect(result.hasFulfilled).toBeTrue();
@@ -117,8 +117,8 @@ describe('promiseAllSettledPlus', () => {
     promiseAllSettledPlus([false, false, false, false, false].map(promiseFactory))
       .then((result) => {
         // all
-        expect(result.allFulfilled).toBeFalse();
-        expect(result.allRejected).toBeTrue();
+        expect(result.areAllFulfilled).toBeFalse();
+        expect(result.areAllRejected).toBeTrue();
 
         // some
         expect(result.hasFulfilled).toBeFalse();
@@ -139,8 +139,8 @@ describe('promiseAllSettledPlus', () => {
   it('returns a rational result for empty arrays', () => promiseAllSettledPlus([])
     .then((result) => {
       // all
-      expect(result.allFulfilled).toBeFalse();
-      expect(result.allRejected).toBeFalse();
+      expect(result.areAllFulfilled).toBeFalse();
+      expect(result.areAllRejected).toBeFalse();
 
       // some
       expect(result.hasFulfilled).toBeFalse();

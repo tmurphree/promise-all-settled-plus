@@ -18,19 +18,19 @@ promiseAllSettledPlus([customPromise1, customPromise2], { checkInputForPromises:
 ```js
 /**
  * Plain JavaScript object that we get as a result of promiseAllSettledPlus.
- * @property {boolean} allFulfilled True if every Promise is fulfilled.
- * @property {boolean} allRejected True if every Promise is rejected.
+ * @property {boolean} areAllFulfilled True if every Promise is fulfilled.
+ * @property {boolean} areAllRejected True if every Promise is rejected.
  * @property {number} fulfilledCount
  * @property {boolean} hasFulfilled True if at least one Promise is fulfilled.
- * @property {boolean} hasRejected True if at least one Promise is rejected..
+ * @property {boolean} hasRejected True if at least one Promise is rejected.
  * @property {object[]} rawResult The raw result from the Promise.allSettled call.
  * @property {number} rejectedCount
  */
 
 e.g.
 {
-  allFulfilled: false,
-  allRejected: false,
+  areAllFulfilled: false,
+  areAllRejected: false,
   fulfilledCount: 2,
   hasFulfilled: true,
   hasRejected: true,
@@ -65,11 +65,10 @@ promiseAllSettledPlus([thisReturnsApromise(), soDoesThis()])
 ```js
 promiseAllSettledPlus([])
 
-// resolves to
-
+// resolves to:
 {
-  allFulfilled: false,
-  allRejected: false,
+  areAllFulfilled: false,
+  areAllRejected: false,
   fulfilledCount: 0,
   hasFulfilled: false,
   hasRejected: false,
@@ -78,10 +77,7 @@ promiseAllSettledPlus([])
 }
 ```
 
-# Explanations  
-
-
-
+# Explanations
 ## Why do I have to use an array when Promise.allSettled takes an iterable?  
 We get weird results when we use iterables other than arrays in Promise.allSettled.  
 This doesn't fail:  

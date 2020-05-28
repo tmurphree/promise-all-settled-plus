@@ -39,10 +39,10 @@ const promiseAllSettledPlus = function promiseAllSettledPlus(
       const rejectedTest = (el) => el.status === 'rejected';
 
       return {
-        get allFulfilled() {
+        get areAllFulfilled() {
           return this.rawResult.length > 0 && this.rawResult.every(fulfilledTest);
         },
-        get allRejected() {
+        get areAllRejected() {
           return this.rawResult.length > 0 && this.rawResult.every(rejectedTest);
         },
         get fulfilledCount() {
