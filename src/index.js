@@ -8,13 +8,14 @@
  * @property {object[]} rawResult The raw result from the Promise.allSettled call.
  * @property {number} rejectedCount
  */
-/** 
+/**
  * @description Add useful getters to the result of a call to Promise.allSettled.
  * @param {Promise[]} promises
  * @param {object} options
  * @param {boolean} [options.checkInputForPromises=true] If true, checks that all items in the
  *   input array are native Promises.
- * @returns {Promise.<AllSettledPlusObject>} Promise that resolves to AllSettledPlusObject.  Does not reject.
+ * @returns {Promise.<AllSettledPlusObject>} Promise that resolves to AllSettledPlusObject.
+ *    Does not reject.
 */
 const promiseAllSettledPlus = function promiseAllSettledPlus(
   promises,
