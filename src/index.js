@@ -1,11 +1,20 @@
 /**
+ * @typedef {object} AllSettledPlusObject
+ * @property {boolean} areAllFulfilled true if every Promise is fulfilled.
+ * @property {boolean} areAllRejected true if every Promise is rejected.
+ * @property {number} fulfilledCount
+ * @property {boolean} hasFulfilled true if at least one Promise is fulfilled.
+ * @property {boolean} hasRejected true if at least one Promise is rejected.
+ * @property {object[]} rawResult The raw result from the Promise.allSettled call.
+ * @property {number} rejectedCount
+ */
+/** 
  * @description Add useful getters to the result of a call to Promise.allSettled.
- * @param {Promise[]} vows An array of the Promises you want to call.
- * @param {object} promises
+ * @param {Promise[]} promises
  * @param {object} options
  * @param {boolean} [options.checkInputForPromises=true] If true, checks that all items in the
  *   input array are native Promises.
- * @returns {object} object
+ * @returns {Promise.<AllSettledPlusObject>} Promise that resolves to AllSettledPlusObject.  Does not reject.
 */
 const promiseAllSettledPlus = function promiseAllSettledPlus(
   promises,

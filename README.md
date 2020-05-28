@@ -16,13 +16,14 @@ promiseAllSettledPlus([customPromise1, customPromise2], { checkInputForPromises:
 ```
 # Returns  
 ```js
+Returns a Promise that resolves to a plain JavaScript object:
 /**
- * Plain JavaScript object that we get as a result of promiseAllSettledPlus.
- * @property {boolean} areAllFulfilled True if every Promise is fulfilled.
- * @property {boolean} areAllRejected True if every Promise is rejected.
+ * @typedef {object}
+ * @property {boolean} areAllFulfilled true if every Promise is fulfilled.
+ * @property {boolean} areAllRejected true if every Promise is rejected.
  * @property {number} fulfilledCount
- * @property {boolean} hasFulfilled True if at least one Promise is fulfilled.
- * @property {boolean} hasRejected True if at least one Promise is rejected.
+ * @property {boolean} hasFulfilled true if at least one Promise is fulfilled.
+ * @property {boolean} hasRejected true if at least one Promise is rejected.
  * @property {object[]} rawResult The raw result from the Promise.allSettled call.
  * @property {number} rejectedCount
  */
